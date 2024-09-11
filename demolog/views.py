@@ -18,7 +18,7 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import time, tzinfo
 from django.core.management import call_command
-
+from demo_admin.management.commands import generate_data
 
 def index(request):
     return render(request, "index.html")
@@ -87,9 +87,9 @@ def user_logout(request):
 
 @login_required
 def dashboard(request):
-    try:
-        if not Package.objects.exists():
-            call_command("generate_data")
+    
+    
+    try:    
         user_dashboard = Dashboard.objects.get(user=request.user)
     except Dashboard.DoesNotExist:
         messages.error(request, "Dashboard not available for the current user")
