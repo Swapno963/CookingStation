@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+	  <title>Cooking Station | Login</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= Login Section ======= -->
+
+
+<br><br><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      
+      <div class="card my-5">
+
+        <form class="card-body cardbody-color p-lg-5" method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <!-- image -->
+            {% include 'alerts.html' %}
+          <div class="text-center">
+            <img src="{% static 'assets/img/cs-logo.jpg' %}" class="img-fluid profile-image-pic img-thumbnail my-4" 
+              width="200px" alt="logo">
+          </div>
+            
+                <!-- phone number input -->
+                <div class="form-group">
+                    {{ form.phone|as_crispy_field }}
+                </div>
+                <!-- password input -->
+                <div class="form-group">
+                    {{ form.password|as_crispy_field }}
+                </div>
+
+            
+          <!-- login button -->
+          <div class="text-center"><button class="btn btn-primary" type="submit" style="background-color: green;">Login</button>
+          </div>
+          <br>
+          <!-- create an account -->
+          <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not
+            Registered? <a href="{% url 'register' %}" class="text-dark fw-bold"> Create an
+              Account</a> <br>
+              <a href="{% url 'forgot_password' %}">Forgotten password?</a>
+          </div>
+        </form>
+          
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- End Login Section -->
+  
+
+<br><br><br><br>
+
+<br><br><br><br>
+  
+{% endblock %}

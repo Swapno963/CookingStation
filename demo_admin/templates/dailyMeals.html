@@ -1,0 +1,374 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Daily Meals | Cooking Station</title>
+    <meta content="cooking-station" name="homefood" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.ico' %}" rel="icon" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select2.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}" />
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    {% include './header.html' %}
+    <!-- End nav and Header -->
+
+    <!-- ======= dashboard Section ======= -->
+    {% block content %}
+    <br /><br /><br /><br />
+
+    <div class="container" style="min-height: 100vh">
+      <h2 clas="text-center m-auto" style="text-align: center">Daily Meals</h2>
+      <div class="d-flex flex-column flex-lg-row gap-3 mb-4">
+        <div class="flex-1 text-center">
+          <h3 class="title" style="text-align: center">Lunch</h3>
+
+          {% if lunch == 1 %}
+          <form method="post" action="{% url 'daily_meals' %}">
+            {% csrf_token %}
+            <input type="hidden" name="meal_type" value="lunch" />
+            <table class="admin-table overflow-x-auto">
+              <!-- head -->
+              <thead>
+                <tr>
+                  <th>Customar</th>
+                  <th>Phone No</th>
+                  <th>Address</th>
+                  <th>Plan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- row 1 -->
+                {% for user in todays_lunch_list %}
+                <tr>
+                  <td>
+                    <div class="course-image-container">
+                      <h3 class="course-name">{{ user.name }}</h3>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="muted">{{ user.phone }}</span>
+                  </td>
+                  <td>
+                    <span class="muted"
+                      >{{ user.address }}, {{ user.city }}</span
+                    >
+                  </td>
+
+                  <td>
+                    <button
+                      class="pill{% if user.plan_type == 'Premium' %} premium {% else %} bg-success {% endif %} border-0"
+                    >
+                      {{ user.plan_type }}
+                    </button>
+                  </td>
+                </tr>
+
+                {% endfor %}
+                <tr>
+                  <td colspan="4">
+                    <button class="button-87" type="submit">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-download"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"
+                        />
+                        <path
+                          d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"
+                        />
+                      </svg>
+                      Download Label
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          {% else %}
+          <h4>Lunch list is not ready until</h4>
+          <span id="lunch-countdown-timer">'09:00:00'</span>
+          {% endif %}
+        </div>
+        <div class="flex-1" style="text-align: center">
+          <h3 class="title">Dinner</h3>
+
+          {% if dinner == 1 %}
+          <form method="post" action="{% url 'daily_meals' %}">
+            {% csrf_token %}
+            <input type="hidden" name="meal_type" value="dinner" />
+            <table class="admin-table overflow-x-auto">
+              <!-- head -->
+              <thead>
+                <tr>
+                  <th>Customar</th>
+                  <th>Phone No</th>
+                  <th>Address</th>
+                  <th>Plan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- row 1 -->
+                {% for user in todays_lunch_list %}
+                <tr>
+                  <td>
+                    <div class="course-image-container">
+                      <h3 class="course-name">{{ user.name }}</h3>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="muted">{{ user.phone }}</span>
+                  </td>
+                  <td>
+                    <span class="muted"
+                      >{{ user.address }}, {{ user.city }}</span
+                    >
+                  </td>
+
+                  <td>
+                    <button
+                      class="pill{% if user.plan_type == 'Premium' %} premium {% else %} bg-success {% endif %} border-0"
+                    >
+                      {{ user.plan_type }}
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan="4">
+                    <button class="button-87" type="submit">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-download"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"
+                        />
+                        <path
+                          d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"
+                        />
+                      </svg>
+                      Download Label
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          {% else %}
+          <h4>Dinner list is not ready until</h4>
+          <span id="dinner-countdown-timer">'14:30:00'</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+
+    <!-- End dashboard -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-lg-3 col-md-6 d-flex">
+            <i class="bi bi-box-arrow-up-left"></i>
+            <div>
+              <h4>Useful Link</h4>
+              <p>
+                <a class="useful-link" href="terms-condition.html"
+                  >Terms and Condition</a
+                >
+              </p>
+              <p>
+                <a class="useful-link" href="privacy.html">Privacy Policy</a>
+              </p>
+              <p>
+                <a class="useful-link" href="payment.html">Payment</a>
+              </p>
+              <p>
+                <a class="useful-link" href="about.html" target="_blank"
+                  >About</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-telephone icon"></i>
+            <div>
+              <h4>Support</h4>
+              <p>
+                <strong>Phone: <br /></strong>UK: +4473886243123, <br />
+                BD: +8801648950765 <br />
+                <strong>Email:</strong>
+                <a
+                  class="useful-link"
+                  href="mailto:support@cookingstation.homes"
+                  >support@cookingstation.homes</a
+                ><br />
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-clock icon"></i>
+            <div>
+              <h4>Opening Hours</h4>
+              <p>
+                <strong>Mon-Sun:</strong> 10AM - 10PM<br />
+                <strong>Friday:</strong> 12PM - 2PM Break Hours
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Follow Us</h4>
+            <div class="social-links d-flex">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a
+                href="https://www.facebook.com/cooking.station.service"
+                class="facebook"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a
+                href="https://www.linkedin.com/company/cooking-station/"
+                class="linkedin"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="copyright">
+          &copy;2024 Copyright <strong><span>Cooking Station</span></strong
+          >. All Rights Reserved
+        </div>
+      </div>
+    </footer>
+
+    <!-- End Footer -->
+
+    <a
+      href="#"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    <!-- Back to top -->
+
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/js/nice-select2.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/dashboard.js' %}"></script>
+    <script>
+      // Set the target times for the countdowns
+      const lunchTime = "09:00:00"; // 9 AM
+      const dinnerTime = "14:30:00"; // 2:30 PM
+
+      function getTimeRemaining(targetTime) {
+        const now = new Date();
+        const [targetHours, targetMinutes, targetSeconds] = targetTime
+          .split(":")
+          .map(Number);
+
+        // Create a date object for the target time today
+        let targetDate = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+          targetHours,
+          targetMinutes,
+          targetSeconds
+        );
+
+        if (targetDate < now) {
+          // If the target time has already passed today, set the target for tomorrow
+          targetDate.setDate(targetDate.getDate() + 1);
+        }
+
+        const remainingTime = targetDate - now;
+
+        const hours = Math.floor(
+          (remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function updateCountdowns() {
+        document.getElementById("lunch-countdown-timer").textContent =
+          getTimeRemaining(lunchTime);
+        document.getElementById("dinner-countdown-timer").textContent =
+          getTimeRemaining(dinnerTime);
+      }
+
+      // Update the countdowns every second
+      setInterval(updateCountdowns, 1000);
+      updateCountdowns(); // Initial call to display time immediately on load
+    </script>
+  </body>
+</html>

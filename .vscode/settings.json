@@ -1,0 +1,25 @@
+{
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true,
+    "liveSassCompile.settings.compileOnWatch": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "compressed",
+      "extensionName": ".css",
+      "generateMap": false,
+      // "extensionName": ".css",
+      "savePath": "/static/assets/css"
+    //   "savePath": "/assets/css"
+      // "savePath": "/css"
+      // "savePath": "/static/assets/css"
+      // "savePath": "src/css"
+    }
+  ],
+  "liveSassCompile.settings.showOutputWindowOn": "None",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "liveServer.settings.port": 5502
+}

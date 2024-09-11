@@ -1,0 +1,115 @@
+{% load static %}
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-lg-1">
+      <img src="{% static 'assets/img/cs-logo.jpg' %}" alt="logo image" />
+      <!-- <h1 style="color: Green;">Cooking <br><p style="color: rgb(196, 8, 8);">Station</p></h1> -->
+    </a>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li>
+          <a href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="dropdown">
+          <a href="#">
+            <span>Packages</span>
+            <i class="bi bi-chevron-down dropdown-indicator"></i>
+          </a>
+          <ul>
+            <li>
+              <a href="{% url 'home' %}#packages">Bachelor</a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}#packages">Student</a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}#packages">Official</a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}#packages">Family</a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}#book-for-events">Events</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#">
+            <span>Menu</span>
+            <i class="bi bi-chevron-down dropdown-indicator"></i>
+          </a>
+          <ul>
+            <li>
+              <a href="{% url 'bd_menu' %}">BD</a>
+            </li>
+            <li>
+              <a href="{% url 'uk_menu' %}">UK</a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="{% url 'home' %}#how-it-works">How it Works</a>
+        </li>
+
+        <li>
+          <a href="{% url 'chef_registration' %}">Join as Chef</a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}">About</a>
+        </li>
+        <li>
+          <a href="{% url 'home' %}#contact">Contact</a>
+        </li>
+        {% if request.user.is_authenticated %}
+          <li class="dropdown">
+            <a href="#">
+              <span>{{ user.name }}</span>
+              <i class="bi bi-chevron-down dropdown-indicator"></i>
+            </a>
+            <ul>
+              {% if user.is_staff == 1 or user.is_superuser == 1 %}
+                <li>
+                  <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                </li>
+              {% endif %}
+              <li>
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+              </li>
+              <li>
+                <a href="{% url 'change_password' %}">Change Password</a>
+              </li>
+              <li>
+                <a href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="dropdown">
+            <a href="#">
+              <span>Login/Register</span>
+              <i class="bi bi-chevron-down dropdown-indicator"></i>
+            </a>
+            <ul>
+              <li>
+                <a href="{% url 'login' %}">Login</a>
+              </li>
+              <li>
+                <a href="{% url 'register' %}">Register</a>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!-- .navbar -->
+
+    <a class="btn-book-a-table" href="{% url 'home' %}#packages">Book Your Plan</a>
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+  </div>
+</header>
+<!-- End nav and Header -->

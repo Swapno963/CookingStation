@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        .label {
+            width: calc(100% / 7); /* 7 labels per row */
+            height: 53.98mm; /* Credit card size height */
+            border: 1px solid #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 5mm;
+            margin-bottom: 10mm; /* Space between rows */
+        }
+
+        .label .name {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-bottom: 5mm;
+        }
+
+        .label .details {
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    {% for user in users %}
+    <div class="label">
+        <div class="name">{{ user.name }}</div>
+        <div class="details">
+            <p>Phone: {{ user.phone }}</p>
+            <p>Address: {{ user.address }}</p>
+            <p>Plan: {{ user.plan }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	<title>Feedback | Cooking Station</title>
+{% endblock %}
+
+{% block content %}
+    
+    
+<style>
+    /* Custom CSS for centering the password div */
+    .password-container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 80px 0;
+    }
+</style>
+    
+<section class="px-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                {% include 'alerts.html' %}
+                <div class="col-lg-6 password-container">
+                    <h2 class="text-center mb-4">Customer Feedback and Complaint Form</h2>
+                    <form id="feedbackForm" action="{% url 'feedback' %}" method="POST" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="form-group mb-4 d-flex flex-column gap-1">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" class="form-control shadow-none" id="fullName" name="fullName"
+                                placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group mb-4 d-flex flex-column gap-1">
+                            <label for="emailOrPhone">Email address or Phone Number</label>
+                            <input type="text" class="form-control shadow-none" id="emailOrPhone" name="emailOrPhone"
+                                placeholder="Enter your email or phone number" required>
+                            <small class="text-muted">Please enter a valid email address or a 10-digit phone
+                                number.</small>
+                        </div>
+                        <div class="form-group mb-4 d-flex flex-column gap-1">
+                            <label for="complaintReason">Complaint Reason</label>
+                            <select class="form-control shadow-none" id="complaintReason" name="complaintReason" required>
+                                <option value="" disabled selected>Select a reason</option>
+                                <option value="Food Quality">Food Quality (Taste, Freshness)</option>
+                                <option value="Delivery Time">Delivery Time (Late or Early)</option>
+                                <option value="Presentation">Presentation (Appearance, Plating)</option>
+                                <option value="Customer Service">Customer Service (Communication, Responsiveness)</option>
+                                <option value="Menu Options">Menu Options (Variety, Dietary Options)</option>
+                                <option value="Portion Size">Portion Size (Too Small or Large)</option>
+                                <option value="Allergen Concerns">Allergen Concerns (Information, Cross-Contamination)</option>
+                                <option value="Temperature">Temperature (Hot or Cold)</option>
+                                <option value="Cleanliness">Cleanliness (Hygiene, Sanitation)</option>
+                                <option value="Billing">Billing (Accuracy, Transparency)</option>
+                                <option value="Order Accuracy">Order Accuracy (Incorrect Items, Missing Items)</option>
+                                <option value="Feedback Handling">Feedback Handling (Response Time, Resolution)</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4 d-flex flex-column gap-1">
+                            <label for="complaint">Complaint</label>
+                            <textarea class="form-control shadow-none" id="complaint" name="complaint" rows="3"
+                                placeholder="Enter your complaint" required></textarea>
+                        </div>
+
+                    <button type="submit" class="btn btn-success w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validateForm() {
+        var emailOrPhoneInput = document.getElementById('emailOrPhone');
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var phonePattern = /^\d{10}$/;
+
+        if (!emailPattern.test(emailOrPhoneInput.value) && !phonePattern.test(emailOrPhoneInput.value)) {
+            alert("Please enter a valid email address or a 10-digit phone number.");
+            emailOrPhoneInput.focus();
+            return false;
+        }
+
+        return true;
+    }
+</script>
+    
+{% endblock %}

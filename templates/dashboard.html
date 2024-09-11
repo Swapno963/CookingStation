@@ -1,0 +1,296 @@
+{% extends 'base.html' %} {% load static %} {% block title %}
+<title>Dashboard | Cooking Station</title>
+{% endblock %} {% block content %}
+<!-- ======= dashboard Section ======= -->
+
+<br />
+
+
+<!-- start Dashboard Section -->
+<section class="dashboard">
+  <div class="container legend-container">
+    <div class="row g-2">
+      <div class="section-top mb-4 text-center">
+        {# {% include 'alerts.html' %}#}
+        <h2 class="py-3 mb-0 text-6">DASHBOARD</h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="226" height="26" viewBox="0 0 226 26" fill="none">
+          <path
+            d="M3 22.9039C54.1496 15.9099 105.148 6.84914 156.469 4.20614C176.85 3.15655 197.386 2.3823 217.774 3.68228C219.863 3.81553 225.295 3.58384 220.541 4.77028"
+            stroke="#0C8040" stroke-width="6" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+    <div class="row justify-content-between align-items-center">
+      <div class="col-lg-4 col-xl-5">
+        <div class="left-content d-flex flex-column align-items-center align-items-lg-start">
+          <form id="uploadForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <figure class="profile-wrapper" id="profileWrapper">
+              {% if user_dashboard.image %}
+              <img src="{{ user_dashboard.image.url }}" alt="" />
+              {% else %}
+              <img src="{% static 'assets/img/dashboard/blank-profile.png' %}" alt="Default profile picture" />
+              {% endif %}
+              <label for="profile" class="icon-wrapper">
+                <i class="bi bi-camera"></i>
+              </label>
+              <input type="file" name="profile" id="profile" hidden onchange="saveImage()" />
+            </figure>
+          </form>
+
+          <div class="right-content d-flex align-items-center">
+            <!-- User's name -->
+            <h3 class="mr-3">{{ user_dashboard.name }}</h3>
+
+            <!-- Active status pill -->
+            <div class="active-wrapper">
+              <span
+                class="pill {% if user_dashboard.active == 'green' %}active-green{% elif user_dashboard.active == 'yellow' %}active-yellow{% else %}active-red{% endif %}"></span>
+              <!--<p>{{ user_dashboard.active|title }}</p>-->
+            </div>
+          </div>
+
+          <div class="days-wrapper w-100">
+            <div class="d-flex flex-column">
+              <label for="duration" class="duration-lable">Select Plan:</label>
+              <div class="d-flex w-100 align-items-end gap-2">
+                <div class="select-wrapper flex-grow-1">
+                  <select name="duration" id="duration">
+                    {% for plan_data in current_plans %}
+                    <option value="{{ plan_data.duration }}"
+                      data-regular-total-meals="{{ plan_data.regular_plan.total_meals }}"
+                      data-regular-per-meal="{{ plan_data.regular_plan.per_meal }}"
+                      data-regular-total-amount="{{ plan_data.regular_plan.total_amount }}"
+                      data-premium-total-meals="{{ plan_data.premium_plan.total_meals }}"
+                      data-premium-per-meal="{{ plan_data.premium_plan.per_meal }}"
+                      data-premium-total-amount="{{ plan_data.premium_plan.total_amount }}">
+                      {{ plan_data.duration }} Days
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form class="d-flex mt-4 mb-2 mx-auto" id="plan_type">
+            <div>
+              <input type="radio" id="regular" name="plan_type" checked />
+              <label for="regular"> Regular </label>
+            </div>
+            <div>
+              <input type="radio" id="premium" name="plan_type" />
+              <label for="premium"> Premium </label>
+            </div>
+          </form>
+
+          <div id="cost" class="w-100 mt-4 center table-responsive">
+            <table id="plan-table" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Plan</th>
+                  <th scope="col">Total Meals</th>
+                  <th scope="col">Per Meal</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data will be populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="w-100">
+            <button class="button-87" role="button" onclick="">
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 col-xl-5">
+        <div
+          class="right-content text-center text-lg-start gap-3 d-flex d-lg-block justify-content-center flex-column align-items-center">
+          <ul class="list-group w-100">
+            <li class="list-group-item">
+              <h6 class="text-muted py-2 d-flex justify-content-between">
+                <strong>Service ID :</strong> {{ user_dashboard.service_id }}
+              </h6>
+            </li>
+            <li class="list-group-item">
+              <p class="text-muted d-flex justify-content-between">
+                {% if current_plan %}
+                <strong>Current Plan :</strong> <span>{{ current_plan }}</span>
+                {% else %}
+                <strong>Current Plan :</strong>
+                <small>You don't have any active plan</small>
+                {% endif %}
+              </p>
+            </li>
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="me-2">Your Balance : </strong>
+                <span class="fs-1 fw-semibold">৳{{ user_dashboard.balance }}</span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Active Status:</strong>
+                {% if user_dashboard.reduce_balance == 0 %}
+                <small><span class="text-warning">Your Meal Is off!</span></small>
+                {% elif user_dashboard.active == 'green' %}
+                <small><span class="text-success">Meal Service Available. Enjoy!</span></small>
+                {% elif user_dashboard.active == 'yellow' %}
+                <small><span class="text-warning">Your subscription is about to expire!</span></small>
+                {% else %}
+                <small><span class="text-danger">No plan available. Subscribe for delicious meals!</span></small>
+                {% endif %}
+              </div>
+            </li>
+
+            <!-- First list item-->
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Meal Status:</strong>
+                {% comment %}
+                <span class="mealStatus" data-bs-toggle="modal" data-bs-target="#mealCustomizationModal"><b>{% if
+                    user_dashboard.reduce_balance == 0 %}OFF{% elif
+                    user_dashboard.reduce_balance %}ON{% else %}OFF{% endif
+                    %}</b>
+                </span>
+                {% endcomment %} {% comment %}
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                  data-bs-target="#mealCustomizationModal">
+                  Meal on/off
+                </button>
+                {% endcomment %}
+
+                <input type="text" id="csrf_token" name="csrf_token" hidden value="{{ csrf_token }}" />
+
+                <label class="switch">
+                  <input type="checkbox" class="switch-input" {% if user_dashboard.reduce_balance == 1 %}checked{% endif %} />
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </li>
+             <!-- Remaining Flexibility -->
+             <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Remaining Flexibility:</strong>
+                <span id="remainingFlexibility"><b>{{ user_dashboard.flexibility }}</b></span>
+              </div>
+            </li>
+            <!-- Used Flexibility -->
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Used Flexibility:</strong>
+                <span id="usedFlexibility"><b>{{ user_dashboard.flexibility_used }}</b></span>
+              </div>
+            </li>
+            {% comment %}
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-end align-items-center">
+                <strong class="text-muted me-2">Meal Status:</strong>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                  data-bs-target="#mealCustomizationModal">
+                  Meal on/off
+                </button>
+              </div>
+            </li>
+            {% endcomment %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End dashboard -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="mealCustomizationModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+      </div>
+
+      <div class="modal-body">
+        <div
+          class="right-content text-center text-lg-start gap-3 d-flex d-lg-block justify-content-center flex-column align-items-center">
+          <ul id="mealOffOptionUL" class="list-group w-100">
+            <!-- Second list item -->
+            {% comment %}
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Meal Status:</strong>
+                <span class="mealStatus"><b>{% if user_dashboard.balance == 0 %} OFF {% elif
+                    user_dashboard.reduce_balance %} ON {% else %} OFF {% endif
+                    %}</b></span>
+              </div>
+            </li>
+            {% endcomment %}
+            
+
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Meal Management :</strong>
+                <form id="toggleForm" method="POST" action="{% url 'toggle_meal_state' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="user_id" id="user_id" value="{{ user_dashboard.user.id }}">
+                  <!-- <input type="hidden" name="user_id" value="{{ user_dashboard.user.id }}">
+                  <input type="hidden" name="reduce_balance" value="{{ user_dashboard.reduce_balance }}">
+                  <button id="mealToggleButton" type="submit" class="btn btn-primary"
+                    style=""
+                    >
+                    {% if user_dashboard.reduce_balance %}
+                    Turn Off Meal
+                    {% else %}
+                    Turn On Meal
+                    {% endif %}
+                  </button> -->
+                  <select
+                    name="meal_off_choice"
+                    id="meal_off_choice"
+                    class="form-select shadow-none"
+                  >
+                    <option selected hidden>Select option</option>
+                    <option value="Both">Off both</option>
+                    <option value="Lunch">Off lunch only</option>
+                    <option value="Dinner">Off dinner only</option>
+                  </select>
+                </form>
+              </div>
+            </li>
+
+           
+            <!-- Note -->
+            <li class="list-group-item">
+              <div class="text-muted d-flex justify-content-between align-items-center">
+                <strong class="text-muted me-2">Note:</strong>
+                <span id="usedFlexibility"><small>Update meal status for Lunch or Both meals before 9.00 AM and for Dinner
+                    before 3.00 PM. After that you won't be able to modify your
+                    meal. For any inquery please contact us!</small></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer action">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+        <button type="submit" class="btn btn-success btn-bg-success" form="toggleForm">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br /><br /><br />
+
+{% endblock %}

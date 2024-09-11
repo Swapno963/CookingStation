@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="file://{{ css_path }}" />
+  </head>
+
+<body>
+  <div class="label-wrapper">
+    {% for user in users %}
+    <div class="card-label-container">
+      <div class="info-wrapper">
+        <h3 class="user_name">{{ user.name }}</h3>
+        <div class="sercvice_id">
+          <span>Service Id. </span>
+          <span>{{ user.service_id }}</span>
+        </div>
+        <address class="address">
+          <span>Address. </span>
+          <span>{{ user.address }}</span>
+        </address>
+
+        <p class="web-address">www.cookingstation.homes</p>
+      </div>
+      <div>
+        <img src="data:image/png;base64,{{ logo_base64 }}" alt="" />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+
+</html>

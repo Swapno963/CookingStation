@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Checkout | Cooking Station</title>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- ======= checkout Section ======= -->
+
+<div class="main-content p-2 p-md-4 pt-0">
+  <section class="checkout">
+    <div class="popular-template-header pt-4">
+      <h4 class="header-title ps-4 ps-lg-0">Checkout</h4>
+    </div>
+
+
+    <form method="post" enctype="multipart/form-data" id="form-payment" class="needs-validation mt-4">
+      {% csrf_token %}
+      <div class="row m-n2">
+        <!-- payment information -->
+
+        <div class="col-12 col-lg-8">
+          <div class="card border mb-3 px-3">
+            <div class="card-header px-3 mb-2">
+              <div class="fw-semibold">Payment Information</div>
+            </div>
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item p-0">
+                  <div class="customradio">
+                    <input type="radio" id="bkash" class="customradio-box" name="payment_processor" value="bkash"
+                      checked hidden />
+                    <label for="bkash" class="customradio-label w-100">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                          <img src="{% static 'assets/img/payment/bkash.svg' %}" class="width-6 rounded-sm"
+                            width="50" />
+                          <span class="payment-name">Bkash</span>
+                        </div>
+                        <div>
+                          <div class="payment-way">Bkash Payment</div>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </li>
+                <li class="list-group-item p-0">
+                  <div class="customradio">
+                    <input type="radio" id="nagad" class="customradio-box" name="payment_processor" value="nagad"
+                      hidden />
+                    <label for="nagad" class="customradio-label w-100">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                          <img src="{% static 'assets/img/payment/nagad.png' %}" class="width-6 rounded-sm"
+                            width="50" />
+                          <span class="payment-name">Nagad</span>
+                        </div>
+                        <div>
+                          <div class="payment-way">Nagad Payment</div>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </li>
+              </ul>
+              <div class="p-3" id="bkashInstruction">
+                <div class="alert alert-info">
+                  <b>Bkash instruction </b> <br />
+
+                  1. Dial the bKash USSD Code (*247#) on Your Mobile Or open your app.
+                  <br />
+                  2.Select the “Send Money” Option from the Menu <br />
+                  3. Enter the Our Personal Bkash Mobile Number <strong>01779378228</strong>
+                  <br />
+                  4.Enter the Amount of Selected Plan to Transfer <br />
+                  5.Provide Your bKash PIN to Confirm the Transaction
+                </div>
+              </div>
+              <div class="p-3" id="nagadInstruction" style="display: none">
+                <div class="alert alert-info">
+                  <b>Nagad instruction </b> <br />
+
+                  1. Dial the Nagad USSD Code (*167#) on Your Mobile Or open
+                  your app.
+                  <br />
+                  2.Select the “Send Money” Option from the Menu <br />
+                  3. Enter the Our Personal Nagad Mobile Number <strong>01779378228</strong>
+                  <br />
+                  4.Enter the Amount of Selected Plan to Transfer <br />
+                  5.Provide Your Nagad PIN to Confirm the Transaction
+                </div>
+              </div>
+              <!-- Static Sender Phone and Transaction Id fields -->
+              <div class="row py-4">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="senderPhone" class="form-label">Sender Phone Number</label>
+                    <div class="copybox">
+                      <input type="tel" class="form-control custom-input shadow-none" id="senderPhone"
+                        name="sender_number" autocomplete="off" placeholder="Enter Sender Phone Number"
+                        pattern="[0-9]{11}" title="Enter a valid phone number" required />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="transactionId" class="form-label">Transaction Id</label>
+                    <div class="copybox">
+                      <input type="text" class="form-control custom-input shadow-none" id="transactionId"
+                        name="transaction_id" autocomplete="off" placeholder="Enter Transaction Id" required />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Billing Information -->
+          <div class="card border">
+            <div class="card-header mb-2">
+              <div class="font-weight-medium py-1">Billing information</div>
+            </div>
+            <div class="card-body d-flex flex-column gap-3">
+              <div class="row">
+                <div class="col-12 col-md-6 px-2">
+                  <div class="form-group">
+                    <label for="Name" class="form-label">Name</label>
+                    <input type="text" class="form-control custom-input shadow-none" value="{{ user.name }}" required
+                      disabled />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 px-2">
+                  <div class="form-group">
+                    <label for="Address" class="form-label">Address</label>
+                    <input type="text" class="form-control custom-input shadow-none"
+                      value="{{ user.address }}, {{ user.city }}" required disabled />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- subscription summary -->
+        <div class="col-12 col-lg-4 d-flex flex-column justify-content-start mt-3 mt-lg-0">
+          <div class="card border">
+            <div class="card-header mb-2">
+              <div class="fw-medium py-1">Subscribtion summary</div>
+            </div>
+
+            <div class="card-body">
+              <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
+                <label class="btn btn-outline-dark w-100 active" id="plan-month">
+                  <span id="planText"> Plan Details </span> <!-- Dyanmically fetch recived data-->
+                </label>
+              </div>
+            </div>
+
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item py-3">
+                  <div class="row">
+                    <div class="col">
+                      <div>Plan</div>
+                    </div>
+                    <div class="col-auto">
+                      <!-- <span class="checkout-month d-inline-block"> 3 </span> -->
+                      <span class="text-muted" id="planText2"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item py-3">
+                  <div class="row">
+                    <div class="col">
+                      <div>Type</div>
+                    </div>
+                    <div class="col-auto">
+                      <!-- <span class="checkout-month d-inline-block"> 3 </span> -->
+                      <span class="text-muted" id="type"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item py-3">
+                  <div class="row">
+                    <div class="col">
+                      <div>Daily Meals</div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="text-muted" id="dailyMealText"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item py-3">
+                  <div class="row">
+                    <div class="col">
+                      <div>Total Meals</div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="text-muted" id="totalMealText"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item py-3">
+                  <div class="row">
+                    <div class="col">
+                      <div>Per Meal</div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="text-muted" id="perMealText"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card-footer font-weight-bold">
+              <div class="row">
+                <div class="col">
+                  <span>Total</span>
+                </div>
+                <div class="col-auto">
+                  <span class="checkout-month d-inline-block" id="totalCostText">
+                  </span>
+                  <!-- <span>USD</span> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 px-2"></div>
+
+          <div class="px-2 w-100">
+            <button type="submit" name="submit" class="btn btn-success btn-block my-3 w-100">
+              <span class="checkout-month d-inline-block">
+                Confirm Subscription
+              </span>
+            </button>
+            <!-- error alert rendering from model and js -->
+            <div id="alert-container"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+
+{% endblock %}

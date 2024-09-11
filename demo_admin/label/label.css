@@ -1,0 +1,41 @@
+@import "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap";
+
+.label-wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.card-label-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px 0px rgba(17, 24, 39, 0.09);
+  padding: 8px;
+}
+.card-label-container figure {
+  width: 30%;
+}
+.card-label-container figure img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+.card-label-container .user_name {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
+.card-label-container address {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.card-label-container .sercvice_id {
+  margin-bottom: 6px;
+}
+.card-label-container .web-address {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}

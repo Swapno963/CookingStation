@@ -1,0 +1,252 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Admin Dashboard | Cooking Station</title>
+    <meta content="cooking-station" name="homefood" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.ico' %}" rel="icon" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select2.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}" />
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style.min.css' %}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    {% include './header.html' %}
+    <!-- End nav and Header -->
+
+    <!-- ======= dashboard Section ======= -->
+    {% block content %}
+      <br /><br /><br /><br />
+
+      <!-- start Dashboard Section -->
+      <div class="admin-main-container container-fluid">
+        <div class="admin-main-wrapper w-100">
+          <!-- main content -->
+          <div class="admin-main-conten w-100">
+            <div class="wrapper">
+              <div class="d-md-flex justify-content-between gap-5">
+                <section class="overview flex-1">
+                  <h3 class="fw-medium fs-3 mt-3 text-center mb-3">
+                    Subscriber Information
+                  </h3>
+                  <div class="business-overview-container">
+                    <div class="flex-1">
+                      <div class="billing-box-container">
+                        <div class="billing-box">
+                          <h3 class="meal-type">Basic</h3>
+  
+                          {% for plan, counts in subscriber_stats.regular.items %}
+                        <div class="single-bill">
+                          <p class="name">{{ plan }} Days</p>
+                          <p class="value">{{ counts }}</p>
+                        </div>
+                        {% endfor %}
+  
+                          <div class="single-bill last">
+                            <p class="name">Total subscriber</p>
+                            <p class="value">{{ subscriber_stats_total.regular }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="billing-box-container">
+                        <div class="billing-box">
+                          <h3 class="meal-type bg-orange">Premium</h3>
+                          {% for plan, counts in subscriber_stats.premium.items %}
+                          <div class="single-bill">
+                            <p class="name">{{ plan }} Days</p>
+                            <p class="value">{{ counts }}</p>
+                          </div>
+                          {% endfor %}
+                          <div class="single-bill last">
+                            <p class="name">Total Meal</p>
+                            <p class="value">{{ subscriber_stats_total.premium }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                
+                <section class="overview flex-1">
+                  <h3 class="fw-medium fs-3 mt-3 text-center mb-3 text-green">
+                    Daily order Information
+                  </h3>
+                  <div class="business-overview-container">
+                    <div class="flex-1">
+                      <div class="billing-box-container bg-green pb-3">
+                        <div class="billing-box">
+                          <h3 class="meal-type">Basic</h3>
+  
+                          <div class="single-bill">
+                            <p class="name">Lunch</p>
+                            <p class="value">{{ total_lunch_regular }}</p>
+                          </div>
+                          <div class="single-bill border-0">
+                            <p class="name">Dinner</p>
+                            <p class="value">{{ total_dinner_regular }}</p>
+                          </div>
+  
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="billing-box-container bg-green pb-3">
+                        <div class="billing-box">
+                          <h3 class="meal-type bg-orange">Premium</h3>
+  
+                          <div class="single-bill">
+                            <p class="name">Lunch</p>
+                            <p class="value">{{ total_lunch_premium }}</p>
+                          </div>
+                          <div class="single-bill border-0">
+                            <p class="name">Dinner</p>
+                            <p class="value">{{ total_dinner_premium }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center mt-2">
+                    <a class="button-87" href="/demo_admin/dashboard/daily_meals">See daily meals</a>
+                  </div>
+                  <div class="best-selling-courses mt-5">
+                    <h3 class="fw-medium fs-3 mt-3 text-center">User Information</h3>
+                    <div
+                      class="d-flex flex-column flex-sm-row justify-content-center gap-3"
+                    >
+                      <div class="business-overview-card">
+                        <h3 class="title">Total user <span class="monthly-revenue">Registered</span></h3>
+                        <span class="count">{{ total_registrations }}</span>
+                       
+                      </div>
+                      <div class="business-overview-card">
+                        <h3 class="title">total user <span class="monthly-revenue bg-orange"> Subscriber</span></h3>
+                        <span class="count">{{ total_active_users }}</span>
+                       
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    {% endblock %}
+
+    <!-- End dashboard -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-lg-3 col-md-6 d-flex">
+            <i class="bi bi-box-arrow-up-left"></i>
+            <div>
+              <h4>Useful Link</h4>
+              <p>
+                <a class="useful-link" href="terms-condition.html">Terms and Condition</a>
+              </p>
+              <p>
+                <a class="useful-link" href="privacy.html">Privacy Policy</a>
+              </p>
+              <p>
+                <a class="useful-link" href="payment.html">Payment</a>
+              </p>
+              <p>
+                <a class="useful-link" href="about.html" target="_blank">About</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-telephone icon"></i>
+            <div>
+              <h4>Support</h4>
+              <p>
+                <strong>Phone: <br /></strong>UK: +4473886243123, <br />
+                BD: +8801648950765 <br />
+                <strong>Email:</strong>
+                <a class="useful-link" href="mailto:support@cookingstation.homes">support@cookingstation.homes</a><br />
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-clock icon"></i>
+            <div>
+              <h4>Opening Hours</h4>
+              <p>
+                <strong>Mon-Sun:</strong> 10AM - 10PM<br />
+                <strong>Friday:</strong> 12PM - 2PM Break Hours
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Follow Us</h4>
+            <div class="social-links d-flex">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="https://www.facebook.com/cooking.station.service" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="https://www.linkedin.com/company/cooking-station/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="copyright">
+          &copy;2024 Copyright <strong><span>Cooking Station</span></strong>. All Rights Reserved
+        </div>
+      </div>
+    </footer>
+
+    <!-- End Footer -->
+
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Back to top -->
+
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/js/nice-select2.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/dashboard.js' %}"></script>
+  </body>
+</html>

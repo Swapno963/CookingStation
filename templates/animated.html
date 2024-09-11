@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Background</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .animated-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        animation: gradientAnimation 5s infinite;
+        animation: gradientAnimation 5s infinite;
+      }
+
+      @keyframes gradientAnimation {
+        0% {
+          background: linear-gradient(to right, #ff6699, #ff66ff);
+        }
+        50% {
+          background: linear-gradient(to right, #ff66ff, #6699ff);
+        }
+        100% {
+          background: linear-gradient(to right, #6699ff, #ff6699);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="animated-background"></div>
+    <!-- Your content goes here -->
+  </body>
+</html>

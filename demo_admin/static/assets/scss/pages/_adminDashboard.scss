@@ -1,0 +1,341 @@
+@use "../global" as *;
+@use "../partials" as *;
+
+.admin-main-container {
+  .admin-main-wrapper {
+    display: flex;
+    justify-content: center;
+    .business-overview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      flex-direction: column;
+      @include breakpoint(mobile768) {
+        flex-direction: row;
+      }
+      .meal-time {
+        text-align: center;
+        font-size: 20px;
+      }
+    }
+    .business-overview-card {
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0px 1px 3px 0px rgba(17, 24, 39, 0.09);
+      padding: 26px 24px;
+      flex-shrink: 0;
+      min-width: 200px;
+      .title {
+        color: #64748b;
+        font-family: $secondaryFont;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .count {
+        color: #1e293b;
+        font-family: $secondaryFont;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-bottom: 7px;
+        display: inline-block;
+      }
+      .label {
+        font-size: 14px;
+        color: #64748b;
+        font-family: $secondaryFont;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
+      .monthly-revenue {
+        color: #fff;
+        text-align: center;
+        font-family: $secondaryFont;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        display: inline-flex;
+        padding: 4px 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 100px;
+        background: #38a169;
+      }
+      .bg-sky {
+        background: #0ea5e9;
+      }
+      .bg-orange {
+        background-color: #f59e0b;
+      }
+    }
+    .admin-main-conten {
+      position: sticky;
+      top: 0;
+      .overview {
+        padding: 3rem 0px;
+      }
+    }
+    .best-selling-courses {
+      overflow: auto;
+    }
+  }
+}
+
+section {
+  margin: 0.5rem 0 !important;
+  padding: 0.5rem 0 !important;
+}
+
+.meal-type {
+  color: #fff;
+  text-align: center;
+  font-family: $secondaryFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: inline-flex;
+  padding: 4px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 100px;
+  background: #38a169;
+}
+.bg-orange {
+  background-color: #f59e0b;
+}
+.table-wrapper {
+  .section-top {
+    padding: 0px 24px;
+    padding-top: 24px;
+    background-color: white;
+    .title-main {
+      color: #1e293b;
+      font-family: $secondaryFont;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      margin-bottom: 12px;
+    }
+    .des {
+      color: #64748b;
+      font-family: $secondaryFont;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+}
+.admin-table {
+  // width: 100%;
+  margin: auto;
+
+  thead {
+    th {
+      // max-width: 954px;
+      height: 47px;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fbfe;
+      color: #000;
+      font-family: $secondaryFont;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      padding: 0px 24px;
+    }
+  }
+  tbody {
+    tr {
+      background: #fff;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      transition: 0.3s;
+    }
+    td {
+      padding: 13px 24px;
+      // border-radius: 8px;
+      .course-image-container {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 16px;
+      }
+      figure {
+        width: 104px;
+        height: 61px;
+        border-radius: 6px;
+        background: var(--Neutral-N200, #edeff5);
+        overflow: hidden;
+      }
+      .course-name {
+        overflow: hidden;
+        color: #1e293b;
+        text-overflow: ellipsis;
+        font-family: $secondaryFont;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        white-space: nowrap;
+        display: -webkit-box;
+        // width: 400px;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+      }
+      .summery {
+        overflow: hidden;
+        color: #64748b;
+        text-overflow: ellipsis;
+        font-family: $secondaryFont;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      .muted {
+        color: #64748b;
+        font-family: $primaryFont;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+    .dropdown-menu {
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      box-shadow: 0px 1px 3px 0px rgba(17, 24, 39, 0.09);
+      li {
+        margin: 10px 0px;
+      }
+    }
+    .dropdown-item {
+      font-family: $secondaryFont;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .pill {
+      color: #fff;
+      text-align: center;
+      font-family: $secondaryFont;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      border-radius: 100px;
+      background: #7b61ff;
+      display: inline-flex;
+      padding: 8px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      max-width: 6rem;
+      width: fit-content;
+    }
+    .bg-secondary {
+      background: #94a3b8 !important;
+    }
+    .danger {
+      color: #ff4141;
+    }
+  }
+}
+.billing-box-container {
+  @include border(solid, 1, #e5e5e5);
+  padding: size(30);
+  @include radius(1);
+}
+.billing-box {
+  @include flex-column;
+  gap: size(14);
+  .title {
+    color: #111;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    // line-height: 30px;
+    display: flex;
+    align-items: center;
+    // text-align: center;
+  }
+  .line {
+    height: size(1);
+    width: 100%;
+    background-color: #ededed;
+  }
+  .plan-detail {
+    background-color: #434443;
+    color: $white;
+    color: #fff;
+    leading-trim: both;
+    text-edge: cap;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    padding: size(10);
+    @include radius(5);
+  }
+  .single-bill {
+    @include flex-between;
+    padding: size(10) size(20);
+    border-bottom: 1px solid #e5e5e5;
+    // @include radius(35);
+    .name {
+      color: #111;
+      leading-trim: both;
+      text-edge: cap;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 26px; /* 185.714% */
+    }
+    .value {
+      color: #696868;
+      leading-trim: both;
+      text-edge: cap;
+
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 26px; /* 185.714% */
+    }
+    &.last {
+      background: rgba(203, 202, 202, 0.55);
+    }
+  }
+  .confirm-ordr-btn {
+    background-color: $primary;
+    padding: size(10) size(18);
+    color: $white;
+    @include radius(5);
+    margin-top: size(20);
+    &:hover {
+      background-color: hsl(147, 83%, 17%);
+    }
+  }
+}
+.flex-1 {
+  flex: 1;
+}

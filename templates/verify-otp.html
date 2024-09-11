@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>OTP Verification | Cooking Station</title>
+{% endblock %}
+{% block content %}
+
+<style>
+    /* Custom CSS for centering the OTP form */
+    .otp-form-container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 100px 0;
+        opacity: 0.7;
+    }
+
+    .otp-input {
+        width: calc(100% / 6 - 10px);
+        /* Adjust width as needed */
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .otp-input:last-child {
+        margin-right: 0;
+    }
+</style>
+    
+
+    <section class="px-3">
+        <!-- OTP Submission Form -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4 otp-form-container">
+                    <h2 class="text-center mb-4">Submit OTP</h2>
+                    <form id="otpForm" action="{% url 'verify_otp' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3 d-flex justify-content-center">
+                            <input type="text" class="form-control otp-input" id="otp1" name="otp1" maxlength="1" required>
+                            <input type="text" class="form-control otp-input" id="otp2" name="otp2" maxlength="1" required>
+                            <input type="text" class="form-control otp-input" id="otp3" name="otp3" maxlength="1" required>
+                            <input type="text" class="form-control otp-input" id="otp4" name="otp4" maxlength="1" required>
+                            <input type="text" class="form-control otp-input" id="otp5" name="otp5" maxlength="1" required>
+                            <input type="text" class="form-control otp-input" id="otp6" name="otp6" maxlength="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100" id="submitBtn" disabled>Submit OTP</button>
+                    </form>
+                    <!-- Error Message Container -->
+                    <div style="text-align: center;">
+                        <small>
+                            <div id="errorContainer" class="alert alert-danger mt-3" role="alert" style="display: none;">
+                                <span id="errorMessage"></span>
+                            </div>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Include your JavaScript files here -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const otpInputs = document.querySelectorAll(".otp-input");
+            const otpForm = document.getElementById("otpForm");
+            const submitBtn = document.getElementById("submitBtn");
+            const errorContainer = document.getElementById("errorContainer");
+            const errorMessage = document.getElementById("errorMessage");
+
+            otpInputs.forEach(function (input, index) {
+                input.addEventListener("input", function () {
+                    if (this.value.length === 1 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                    checkInputs();
+                });
+
+                input.addEventListener("keydown", function (e) {
+                    if (e.key === "Backspace" && index > 0 && this.value.length === 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                    checkInputs();
+                });
+
+                // Handle paste event
+                input.addEventListener("paste", function (e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData("text").trim();
+                    if (/^\d{6}$/.test(pasteData)) {
+                        for (let i = 0; i < Math.min(pasteData.length, 6); i++) {
+                            otpInputs[index + i].value = pasteData[i];
+                        }
+                    }
+                    checkInputs();
+                });
+            });
+
+            function checkInputs() {
+                const allFilled = Array.from(otpInputs).every(input => input.value.length === 1);
+                submitBtn.disabled = !allFilled;
+                document.querySelector('.otp-form-container').style.opacity = allFilled ? 1 : 0.7; // Adjust opacity based on allFilled condition
+            }
+
+            otpForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const otpValue = Array.from(otpInputs).map(input => input.value).join("");
+                const formData = new FormData();
+                formData.append('otp', otpValue);
+
+                fetch("{% url 'verify_otp' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json()) // Parse JSON response
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = "/reset_password/"; // Redirect after OTP verification
+                    } else {
+                        showError("Invalid OTP, Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError("Error verifying OTP. Please try again.");
+                });
+            });
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorContainer.style.display = "block"; // Show the error container
+            setTimeout(function (){
+                errorContainer.style.display = "none";
+            }, 5000);
+            }
+        });
+    </script>
+
+{% endblock %}

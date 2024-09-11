@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+	<title>Chef Registration | Cooking Station</title>
+{% endblock %}
+
+{% block content %}
+    
+<!-- ======= Chef reg form Section ======= -->
+
+
+<br><br><br><br><br>
+<br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br><br>
+    
+
+
+<form method="POST" action="{% url 'chef_registration' %}" style="margin-left: 25%; margin-bottom: 10px ; padding-left: 8px ;padding-right: 8px ;border-radius: 2.90% ;margin-right:25%; width: 50%; margin-top: -375px; background-color: white;">
+{% include 'alerts.html' %}
+  <h1><strong>Chef Registration</strong></h1>
+    <br>
+  {% csrf_token %}
+  {{ form|crispy}}
+  <br>
+      <div class="">
+        <button class="btn btn-primary" type="submit" style="background-color: green;">Register</button>
+    </div>
+  <br>
+</form>
+
+    
+{% endblock %}

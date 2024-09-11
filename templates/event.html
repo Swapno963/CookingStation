@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+	<title>Event | Cooking Station</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= Event Section Start======= -->
+<br /><br /><br />
+    <!-- === EVENT START === -->
+    <section id="book-for-events" class="book-a-table">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% include 'alerts.html' %}
+                    <div class="section-header">
+                        <h2>Book For Events</h2>
+                        <p style="color: red;">Book Your<span> Taste, Stay</span> With Us</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <!-- Left Side - Image -->
+                <div class="col-lg-4">
+                    <div class="reservation-img1 full-height h-100"
+                        style="background-image: url('{% static 'assets/img/about-event-banners/event-book-2.jpg' %}');">
+                    </div>
+                </div>
+
+                <!-- Right Side - Form -->
+                <div class="col-lg-8">
+                    <div class="reservation-form-bg px-4 px-md-0 py-4">
+                        <div class="row">
+                            <div class="col-md-8  offset-md-2 ">
+                                <form method="POST" action="{% url 'event' %}" class="reservation-form">
+                                    <!-- CSRF Token -->
+                                    {% csrf_token %}
+                                    <!-- Form Fields -->
+                                    <div class="row g-2">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.name|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.phone|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.email|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.date_and_time|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.country|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                {{ form.address|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.people|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.message|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">Book Your
+                                                Event</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === EVENT END  === -->
+    
+    
+{% endblock %}
