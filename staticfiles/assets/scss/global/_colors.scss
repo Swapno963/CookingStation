@@ -1,0 +1,66 @@
+// DEFAULT COLORS
+$N900: #101840;
+$N800: #474d66;
+$N700: #696f8c;
+$N600: #8f95b2;
+$N500: #c1c4d6;
+$N400: #d8dae5;
+$N300: #e6e8f0;
+$N200: #edeff5;
+$N100: #f4f6fa;
+$N75: #f9fafc;
+$N50: #fafbff;
+$white: #ffffff;
+
+// THEME-COLORS
+$primary: #090d1d; //#4C6FFF
+$blue: hsl(214, 100%, 57%); //#2684FF
+$green-light: #3fe09d;
+$admin-primary: #754ffe;
+
+// BACKGROUND-COLORS
+$success: hsl(152, 82%, 39%); //#12B76A
+$successlight: hsla(144, 54%, 52%, 0.1); //rgba(65, 198, 118, 0.1);
+$successstatusbg: hsl(152, 100%, 93%); //#DBFFEE
+$danger: hsl(4, 86%, 58%); //#F04438
+$offcanvasbg: hsl(214, 100%, 99%); //#F8FBFF
+$primaryLight: hsl(226, 100%, 94%); //#E1E8FF
+$purple: hsl(258, 54%, 52%); //#6941C6
+$purpleLight: hsla(258, 54%, 52%, 0.1);
+$electriccyan: hsl(187, 54%, 52%); //#41B6C6
+$electriccyanlight: hsla(187, 54%, 52%, 0.102); // rgba(65, 182, 198, 0.1);
+$orange: hsl(14, 100%, 67%); //#FF8058
+$orangeLight: hsla(14, 100%, 67%, 0.1); //rgba(255, 128, 88, 0.1)
+$holdstatusbg: hsl(0, 0%, 93%); //#EDEDED
+$inactivestatusbg: hsl(3, 100%, 96%); //#FFEBEA
+$violatecolor: hsl(295, 45%, 61%); //#C16EC8
+$lightgreencolor: hsl(183, 74%, 58%); //#45DAE3
+
+// TEXT-COLORS
+$darkText: hsl(220, 43%, 11%); //#101828
+$headingText: hsl(219, 18%, 22%); //#2F3643
+$textPrimary: hsl(221, 13%, 46%); //#667085
+$textSecondary: hsl(218, 15%, 65%); //#98A2B3
+$textgray: hsl(218, 24%, 27%); //#344054
+
+$ownerbg: hsl(162, 100%, 67%); //#57FFCD
+$userbg: hsl(49, 100%, 60%); //#FFD831
+$yellowcolor: hsl(31, 98%, 62%); //#FDA03E
+
+// BORDER-COLORS
+$headerborder: hsl(220, 17%, 93%); //#EAECF0
+$checkborder: hsl(217, 16%, 84%); //#D0D5DD
+$btndarkborder: hsl(217, 16%, 84%); // #D0D5DD
+$tableBorder: hsl(220, 17%, 93%); //#EAECF0
+$borderleft: hsl(228, 58%, 46%); //#324DBA
+
+// SHADOWS
+$shade-1: rgba(102, 112, 133, 0.05);
+
+// BOX-SHADOWS
+$box-shadow-1: 0.25rem 0.25rem 0.25rem $shade-1;
+$dropshadow-1: drop-shadow(0.25rem 0.25rem 0.25rem $shade-1);
+
+// DARK-MODE
+$darkPrimary: hsl(200, 6%, 9%); //#161819
+$lightDark: hsl(204, 6%, 17%); //#292C2D
