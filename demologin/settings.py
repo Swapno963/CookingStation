@@ -41,20 +41,30 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "whitenoise.runserver_nostatic",
     "django_crontab",
+    'django_cron',
 ]
 
-CRONJOBS = [
-    (
-        "0 9 * * *",
-        "demo_admin.cron.update_meals",
-        f">> {BASE_DIR}/logs/logfile.log 2>&1",
-    ),
-    (
-        "0 15 * * *",
-        "demo_admin.cron.update_meals",
-        f">> {BASE_DIR}/logs/logfile.log 2>&1",
-    ),
+# Ignore system corntab interaction
+# CRONJOBS = [
+#     (
+#         "0 9 * * *",
+#         "demo_admin.cron.update_meals",
+#         f">> {BASE_DIR}/logs/logfile.log 2>&1",
+#     ),
+#     (
+#         "0 15 * * *",
+#         "demo_admin.cron.update_meals",
+#         f">> {BASE_DIR}/logs/logfile.log 2>&1",
+#     ),
+# ]
+
+
+CRON_CLASSES = [
+    'demolog.cron.ReduceBalanceCronJob',
+    'demolog.cron.ExpiredPaymentsCronJob',
+    'demolog.cron.ResetFlexibilityCronJob',
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
