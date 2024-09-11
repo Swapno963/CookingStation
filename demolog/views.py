@@ -88,9 +88,14 @@ def user_logout(request):
 @login_required
 def dashboard(request):
     try:
-        if not Package.objects.exists():
-            call_command("generate_data")
+        # if not Package.objects.exists():
+        #     call_command("generate_data")
         user_dashboard = Dashboard.objects.get(user=request.user)
+        payment  = user_dashboard.payments.first()
+        print("trying to get balance",payment.total_amount)
+        print("trying to get balance",payment.plan)
+
+        # user_payment = Payment.objects.get(user=request.user)
     except Dashboard.DoesNotExist:
         messages.error(request, "Dashboard not available for the current user")
         return redirect("home")
@@ -109,7 +114,6 @@ def dashboard(request):
         regular_plan = Package.objects.filter(plan=duration, type="Regular").first()
         premium_plan = Package.objects.filter(plan=duration, type="Premium").first()
 
-        # print(duration)
         # print(regular_plan)
         # print(premium_plan)
 
@@ -125,9 +129,12 @@ def dashboard(request):
     # print(current_plans)
 
     context = {
+        "current_plan": payment.plan,
+        "balance": payment.total_amount,
+        # "active_status": user_payment,
         "user_dashboard": user_dashboard,
         "current_plans": current_plans,
-        "current_plan": current_plan,
+        # "current_plan": current_plan,
     }
 
     return render(request, "dashboard.html", context)
