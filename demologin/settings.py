@@ -2,26 +2,26 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 import dj_database_url
-# import environ
-# import pymysql
-# pymysql.install_as_MySQLdb()
+import environ
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-# env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, False))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env("SECRET_KEY")
-SECRET_KEY = "k4l32k23j4k2jjhsds8d9sd98s89d"
+SECRET_KEY = env("SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env("DEBUG")
+
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
@@ -62,9 +62,10 @@ INSTALLED_APPS = [
 
 
 CRON_CLASSES = [
-    'demolog.cron.ReduceBalanceCronJob',
-    'demolog.cron.ExpiredPaymentsCronJob',
-    'demolog.cron.ResetFlexibilityCronJob',
+    
+    'demolog.cron.ReduceBalanceLunchCronJob',
+    'demolog.cron.ReduceBalanceDinnerCronJob',
+    'demolog.cronExpiredPaymentsCronJob',
 ]
 
 

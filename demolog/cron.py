@@ -3,11 +3,11 @@ from demolog.models import Dashboard, Payment
 from django.utils import timezone
 
 
-class ReduceBalanceCronJob(CronJobBase):
-    RUN_EVERY_MINS = 720  # Every 12 hours
+class ReduceBalanceLunchCronJob(CronJobBase):
+    RUN_AT_TIMES = ['09:00']  # Run at 9:00 AM
 
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'demolog.reduce_balance_cron_job'
+    schedule = Schedule(run_at_times=RUN_AT_TIMES)
+    code = 'demolog.reduce_balance_lunch_cron_job'
 
     def do(self):
         dashboards = Dashboard.objects.filter(reduce_balance=True)
@@ -20,7 +20,29 @@ class ReduceBalanceCronJob(CronJobBase):
                     if dashboard.balance == 0:
                         dashboard.current_plan = None
                     dashboard.save()
-        print("Balance successfully reduced by plan's meal rate")
+        print("Balance successfully reduced by plan's meal rate for lunch.")
+        
+        
+class ReduceBalanceDinnerCronJob(CronJobBase):
+    RUN_AT_TIMES = ['14:30']  # Run at 2:30 PM
+
+    schedule = Schedule(run_at_times=RUN_AT_TIMES)
+    code = 'demolog.reduce_balance_dinner_cron_job'
+
+    def do(self):
+        dashboards = Dashboard.objects.filter(reduce_balance=True)
+        for dashboard in dashboards:
+            if dashboard.current_plan and dashboard.balance > 0:
+                per_meal = dashboard.current_plan.per_meal
+                if per_meal is not None:
+                    reduce_amount = min(dashboard.balance, per_meal)
+                    dashboard.balance -= reduce_amount
+                    if dashboard.balance == 0:
+                        dashboard.current_plan = None
+                    dashboard.save()
+        print("Balance successfully reduced by plan's meal rate for dinner.") 
+        
+    
 
 class ExpiredPaymentsCronJob(CronJobBase):
     RUN_EVERY_MINS = 720  # Every 12 hours
@@ -33,17 +55,3 @@ class ExpiredPaymentsCronJob(CronJobBase):
         expired_payments.update(status='expired')
         print("Expired payments updated.")
 
-class ResetFlexibilityCronJob(CronJobBase):
-    RUN_EVERY_MINS = 720  # Every 12 hours
-
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'demolog.reset_flexibility_cron_job'
-
-    def do(self):
-        dashboards = Dashboard.objects.all()
-        for dashboard in dashboards:
-            if dashboard.balance == 0:
-                dashboard.flexibility = 0
-                dashboard.flexibility_used = 0
-                dashboard.save()
-        print("Flexibility reset successfully.")
