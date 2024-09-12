@@ -122,7 +122,7 @@ class DailyMeals(View):
         Q(is_active=True)
         & Q(is_staff=False)
         & Q(is_superuser=False)
-        # & Q(payments__status="active")
+        & Q(payments__status="active")
     ).annotate(plan_type=F("dashboard__current_plan__type"), service_id=F("dashboard__service_id"))
 
     def get(self, request):
