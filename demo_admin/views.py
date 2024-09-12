@@ -43,9 +43,14 @@ class AdminDashboardView(View):
         dashboards = Dashboard.objects.all()
         users = UserAccount.objects.all()
         total_registrations = users.filter(is_staff=False, is_superuser=False).count()
-        total_active_users = users.filter(
-            is_active=True, is_staff=False, is_superuser=False
-        ).count()
+        # total_active_users = users.filter(
+        #     is_active=True, is_staff=False, is_superuser=False
+        # ).count()
+        
+        total_active_users = 0
+        for user in dashboards:
+            if user.current_plan:
+                total_active_users += 1
 
         # print('Total users:', total_registrations)
         # print('Total active users:', total_active_users)
@@ -62,9 +67,20 @@ class AdminDashboardView(View):
             .annotate(count=Count("current_plan__plan"))
         )
 
-        total_regular_counts = dashboards.filter(current_plan__type="Regular").count()
+        total_regular_counts = 0
+        total_premium_counts = 0
+        # Example to check distinct values for debugging
+        # Filter out dashboards where current_plan is not None
+        for dashboard in dashboards:
+            if dashboard.current_plan is not None:
+                if dashboard.current_plan.type == 'Regular' and dashboard.meal_status.status == False:
+                    total_regular_counts += 2
+                elif dashboard.current_plan.type == 'Premium' and dashboard.meal_status.status == False:
+                    total_premium_counts += 2
+                else:
+                    pass
 
-        total_premium_counts = dashboards.filter(current_plan__type="Premium").count()
+        
 
         total_lunch_regular = total_regular_counts // 2
         total_dinner_regular = total_regular_counts // 2
