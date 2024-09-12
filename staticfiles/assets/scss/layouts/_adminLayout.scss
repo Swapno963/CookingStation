@@ -1,0 +1,26 @@
+@use "../global" as *;
+@use "../partials" as *;
+
+.admin-main-container {
+  background-color: #f1f5f9;
+  padding-bottom: 2rem;
+  min-height: 100vh;
+  .admin-main-wrapper {
+    // height: calc(100vh - 60px);
+    max-width: 1280px;
+    margin: auto;
+    // display: grid;
+    // grid-template-columns: 300px 1fr;
+    // grid-template-rows: auto 1fr;
+    // gap: 24px;
+    .admin-banner-container {
+      grid-column: 1 / span 2;
+    }
+    .admin-main-conten {
+      grid-column: 1 / span 2;
+      @include breakpoint(tab992) {
+        grid-column: auto;
+      }
+    }
+  }
+}

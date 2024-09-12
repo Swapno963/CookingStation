@@ -166,7 +166,7 @@ class DailyMeals(View):
 
     def post(self, request, *args, **kwargs):
         meal_type = request.POST.get("meal_type")
-        
+        current_date = timezone.now().date()
 
         if meal_type == "lunch":
             meal_list = self.users_list.filter(
@@ -212,6 +212,6 @@ class DailyMeals(View):
         buffer.seek(0)
         response = HttpResponse(buffer, content_type="application/pdf")
         response["Content-Disposition"] = (
-            f'attachment; filename="{meal_type}_labels.pdf"'
+            f'attachment; filename="{current_date}_{meal_type}_labels.pdf"'
         )
         return response

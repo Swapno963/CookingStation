@@ -222,7 +222,7 @@ class Payment(models.Model):
     payment_method = models.CharField(max_length=10)
     sender_number = models.CharField(max_length=15)
     transaction_id = models.CharField(max_length=30)
-    plan = models.CharField(max_length=100)
+    plan = models.CharField(max_length=100) 
     type = models.CharField(max_length=20, blank=True, null=True)
     total_amount = models.IntegerField(default=0)
     started_date = models.DateTimeField(auto_now_add=True)
@@ -236,16 +236,16 @@ class Payment(models.Model):
             # If this is a new instance, set started_date to the current time
             self.started_date = timezone.now()
             # self.expire_date = self.started_date + timezone.timedelta(days=self.plan)
-            if self.plan in '3 Days':
+            if self.plan == '3 Days':
                 self.expire_date = self.started_date + \
                     timezone.timedelta(days=3)
-            elif self.plan in '7 Days':
+            elif self.plan == '7 Days':
                 self.expire_date = self.started_date + \
                     timezone.timedelta(days=7)
-            elif self.plan in '15 Days':
+            elif self.plan == '15 Days':
                 self.expire_date = self.started_date + \
                     timezone.timedelta(days=15)
-            elif self.plan in '30 Days':
+            elif self.plan == '30 Days':
                 self.expire_date = self.started_date + \
                     timezone.timedelta(days=30)
 
@@ -255,10 +255,21 @@ class Payment(models.Model):
                                                         expire_date__gt=timezone.now()).exists()
             if active_plan_exists and not self.user.is_staff:
                 raise ValueError(
-                    'You already have an active plan. Please wait until it expires.')
+                    'You already have an active plan. Please wait until it expires.') 
 
         super().save(*args, **kwargs)
+        
+        if self.confirmed:
+            try:
+                req_plan = Package.objects.get(plan=int(self.plan.split()[0]), type=self.type)
+                self.dashboard.current_plan = req_plan
+                self.dashboard.balance = self.total_amount
+                self.dashboard.save() 
+            except Package.DoesNotExist:
+                raise ValueError("The specified package does not exist")
 
+            
+            
     def __str__(self):
         return f"Payment - User: {self.user}, Method: {self.payment_method}, Transaction ID: {self.transaction_id}"
 
