@@ -16,7 +16,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils import timezone
-from datetime import time, tzinfo
+from datetime import tzinfo
 from django.core.management import call_command
 from demo_admin.management.commands import generate_data
 

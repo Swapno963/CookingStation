@@ -132,9 +132,16 @@ class AdminDashboardView(UserPassesTestMixin, View):
         return render(request, self.template_name, context)
 
 
-class DailyMeals(View):
+class DailyMeals(UserPassesTestMixin, View):
 
     template_name = "dailyMeals.html"
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser  # type: ignore
+
+    def handle_no_permission(self):
+        return redirect("home")
+    
+    
     users_list = UserAccount.objects.filter(
         Q(is_active=True)
         & Q(is_staff=False)
