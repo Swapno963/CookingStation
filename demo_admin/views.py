@@ -27,16 +27,17 @@ import base64
 # Create your views here.
 
 
-class AdminDashboardView(View):
+class AdminDashboardView(UserPassesTestMixin, View):
 
+    
     template_name = "adminDashboard.html"
-    # login_url = reverse_lazy()
+ 
 
-    # def test_func(self):
-    #     return self.request.user.is_staff or self.request.user.is_superuser  # type: ignore
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser  # type: ignore
 
-    # def handle_no_permission(self):
-    #     return redirect("home")
+    def handle_no_permission(self):
+        return redirect("home")
 
     def get(self, request, *args, **kwargs):
 
