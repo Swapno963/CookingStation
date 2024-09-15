@@ -34,7 +34,7 @@ class AdminDashboardView(UserPassesTestMixin, View):
  
 
     def test_func(self):
-        return self.request.user.is_staff or self.request.user.is_superuser  # type: ignore
+        return self.request.user.is_staff or self.request.user.is_superuser
 
     def handle_no_permission(self):
         return redirect("home")
@@ -135,8 +135,9 @@ class AdminDashboardView(UserPassesTestMixin, View):
 class DailyMeals(UserPassesTestMixin, View):
 
     template_name = "dailyMeals.html"
+    
     def test_func(self):
-        return self.request.user.is_staff or self.request.user.is_superuser  # type: ignore
+        return self.request.user.is_staff or self.request.user.is_superuser 
 
     def handle_no_permission(self):
         return redirect("home")

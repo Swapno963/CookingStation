@@ -63,9 +63,10 @@ INSTALLED_APPS = [
 
 CRON_CLASSES = [
     
+    'demolog.cron.ExpiredPaymentsCronJob',
     'demolog.cron.ReduceBalanceLunchCronJob',
     'demolog.cron.ReduceBalanceDinnerCronJob',
-    'demolog.cronExpiredPaymentsCronJob',
+    
 ]
 
 

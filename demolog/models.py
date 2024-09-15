@@ -259,7 +259,7 @@ class Payment(models.Model):
 
         super().save(*args, **kwargs)
         
-        if self.confirmed:
+        if self.confirmed and self.status == 'active':
             try:
                 req_plan = Package.objects.get(plan=int(self.plan.split()[0]), type=self.type)
                 self.dashboard.current_plan = req_plan
@@ -268,6 +268,8 @@ class Payment(models.Model):
             except Package.DoesNotExist:
                 raise ValueError("The specified package does not exist")
 
+       
+                
             
             
     def __str__(self):
