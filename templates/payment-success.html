@@ -42,9 +42,9 @@
  
      <!-- ======= Payment  Section ======= -->
 
-  <div class="min-h-screen	">
-    <div class="d-flex flex-column gap-3 px-4 	">
-      <h3 class="text-center" style="color: #3dc480">
+  <div style="height: 100vh; display: flex; justify-content: center; align-items: center;" >
+    <div class="px-4 mt-12 pt-12">
+      <h3 class="text-center py-4" style="color: #3dc480">
         Your payment info is submitted and being verified. <br />
         Please Wait for confirmation. Our agent will call you soon within 3 hours. Thank you!
       </h3>
@@ -64,7 +64,7 @@
         </svg>
       </div>
 
-      <h4 class="text-center">
+      <h4 class="text-center pt-3">
         <a href="{% url 'dashboard' %}" style="color: #3dc480"
           >Redirect to Dashboard</a
         >
@@ -97,7 +97,7 @@
     <script src="{% static 'assets/js/main.js' %}"></script>
     <script src="{% static 'assets/js/dashboard.js' %}"></script>
     <script src="{% static 'assets/js/checkout.js' %}"></script>
-    <script>
+     <script> 
         // Redirect to the dashboard page after confirm subscription
         setTimeout(function() {
             window.location.href = '/dashboard';
