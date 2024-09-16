@@ -1,5 +1,5 @@
 import json
-import time
+from datetime import time
 import string
 import random
 from traceback import print_tb
@@ -88,7 +88,6 @@ def user_logout(request):
 @login_required
 def dashboard(request):
     
-    
     try:    
         user_dashboard = Dashboard.objects.get(user=request.user)
     except Dashboard.DoesNotExist:
@@ -122,7 +121,6 @@ def dashboard(request):
                 }
             )
 
-    # print(current_plans)
 
     context = {
         "user_dashboard": user_dashboard,
@@ -138,7 +136,7 @@ def is_valid_time(meal_off_choice, current_time):
     if meal_off_choice == "Lunch":
         return time(20, 0) <= current_time or current_time <= time(9, 0)
     elif meal_off_choice == "Dinner":
-        return time(20, 0) <= current_time or current_time <= time(15, 0)
+        return time(20, 0) <= current_time or current_time <= time(14, 0)
     elif meal_off_choice == "Both":
         return time(20, 0) <= current_time <= time(9, 0)
 
@@ -158,13 +156,10 @@ def toggle_meal_state(request):
         current_time = timezone.localtime().time()
         to_dt = time(current_time.hour, current_time.minute)
 
-        # print('----------------------------------------------------------------')
-        print('Current time:', to_dt)
-        # print(is_valid_time(meal_off_choice, to_dt))
-        # print('----------------------------------------------------------------')
-
+        
         if meal_off_choice == "None":
             current_status = meal.meal_off  # type: ignore
+            print(current_status)
             if meal_status_on_time(meal_off_choice, current_time, current_status):
                 meal.meal_off = meal_off_choice  # type: ignore
                 meal.status = False  # type: ignore
@@ -177,6 +172,7 @@ def toggle_meal_state(request):
                     }
                 )
             else: 
+                print('Invalid Time to meal on')
                 return JsonResponse(
                     {
                         "success": False,
@@ -187,10 +183,10 @@ def toggle_meal_state(request):
             meal.meal_off = meal_off_choice  # type: ignore
             meal.status = True  # type: ignore
             meal.save()  # type: ignore
-            dashboard.save()  # type: ignore
             dashboard.toggle_flexibility()  # type: ignore
             remaining_flexibility = dashboard.flexibility
             used_flexibility = dashboard.flexibility_used
+            dashboard.save()  # type: ignore
             return JsonResponse(
                 {
                     "success": True,
@@ -199,7 +195,7 @@ def toggle_meal_state(request):
                     "used_flexibility": used_flexibility,
                 }
             )
-        elif dashboard.flexibility < 0:
+        elif dashboard.flexibility <= 0:
             return JsonResponse(
                 {"success": False, "message": "Flexibility not available"}
             )

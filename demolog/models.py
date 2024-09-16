@@ -181,20 +181,25 @@ class Dashboard(models.Model):
         if not self.meal_status:
             meal_off = MealOff.objects.create()
             self.meal_status = meal_off
-        elif self.meal_status and self.meal_status.status == True:
+        
+        if self.meal_status and self.meal_status.status == True:
             self.reduce_balance = False
-        elif self.meal_status == 'None' and self.meal_status.status == False:
+        
+        if self.meal_status.meal_off == 'None' and self.meal_status.status == False:
             self.reduce_balance = True
+            
         super().save(*args, **kwargs)
 
     @property
     def active(self):
-        if self.balance > 160:
+
+        current_plan_per_meal = self.current_plan.per_meal
+        if self.balance > current_plan_per_meal * 3:
             return 'green'
-        elif 0 < self.balance <= 160:
+        elif self.balance > current_plan_per_meal:
             return 'yellow'
         else:
-            return 'red'
+            return ' red'
 
     def toggle_flexibility(self):
         if not self.reduce_balance:
@@ -251,19 +256,18 @@ class Payment(models.Model):
 
         if not self.id:  # type: ignore # If it's a new instance
             # Check if the user already has an active plan
-            active_plan_exists = Payment.objects.filter(user=self.user,
-                                                        expire_date__gt=timezone.now()).exists()
-            if active_plan_exists and not self.user.is_staff:
-                raise ValueError(
-                    'You already have an active plan. Please wait until it expires.') 
-
+            active_plan_exists = self.dashboard.current_plan
+            if active_plan_exists != None and not self.user.is_staff:
+                raise ValueError('You already have an active plan. Please wait until it expire')
+           
         super().save(*args, **kwargs)
         
         if self.confirmed and self.status == 'active':
             try:
                 req_plan = Package.objects.get(plan=int(self.plan.split()[0]), type=self.type)
                 self.dashboard.current_plan = req_plan
-                self.dashboard.balance = self.total_amount
+                self.dashboard.balance += self.total_amount 
+                self.dashboard.reduce_balance = True
                 self.dashboard.save() 
             except Package.DoesNotExist:
                 raise ValueError("The specified package does not exist")

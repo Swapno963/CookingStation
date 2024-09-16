@@ -51,7 +51,7 @@ class ReduceBalanceLunchCronJob(CronJobBase):
         now_local = now_utc.astimezone(local_tz)
         current_hour = now_local.hour
         
-        if  current_hour < 10:
+        if  current_hour == 9:
             dashboards = Dashboard.objects.filter(reduce_balance=True)
             for dashboard in dashboards:
                 if dashboard.current_plan and dashboard.balance > 0:
