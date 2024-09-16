@@ -136,7 +136,7 @@ def is_valid_time(meal_off_choice, current_time):
     if meal_off_choice == "Lunch":
         return time(20, 0) <= current_time or current_time <= time(9, 0)
     elif meal_off_choice == "Dinner":
-        return time(20, 0) <= current_time or current_time <= time(14, 0)
+        return time(20, 0) <= current_time or current_time <= time(18, 0)
     elif meal_off_choice == "Both":
         return time(20, 0) <= current_time <= time(9, 0)
 
