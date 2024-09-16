@@ -136,7 +136,7 @@
             <li class="list-group-item">
               <div class="text-muted d-flex justify-content-between align-items-center">
                 <strong class="text-muted me-2">Active Status:</strong>
-                {% if user_dashboard.reduce_balance == 0 %}
+                {% if user_dashboard.reduce_balance == 0  or user_dashboard.meal_status.status == 1 %}
                 <small><span class="text-warning">Your Meal Is off!</span></small>
                 {% elif user_dashboard.active == 'green' %}
                 <small><span class="text-success">Meal Service Available. Enjoy!</span></small>
@@ -168,7 +168,7 @@
                 <input type="text" id="csrf_token" name="csrf_token" hidden value="{{ csrf_token }}" />
 
                 <label class="switch">
-                  <input type="checkbox" class="switch-input" {% if user_dashboard.reduce_balance == 1 %}checked{% endif %} />
+                  <input type="checkbox" class="switch-input" {% if user_dashboard.meal_status.status == 0 %}checked{% endif %} />
                   <span class="switch-label" data-on="On" data-off="Off"></span>
                   <span class="switch-handle"></span>
                 </label>
@@ -233,7 +233,8 @@
                 <strong class="text-muted me-2">Meal Status:</strong>
                 <span class="mealStatus"><b>{% if user_dashboard.balance == 0 %} OFF {% elif
                     user_dashboard.reduce_balance %} ON {% else %} OFF {% endif
-                    %}</b></span>
+%}</b></span>
+                    <p>{{message}}</p>
               </div>
             </li>
             {% endcomment %}

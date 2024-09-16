@@ -181,10 +181,13 @@ class Dashboard(models.Model):
         if not self.meal_status:
             meal_off = MealOff.objects.create()
             self.meal_status = meal_off
-        elif self.meal_status and self.meal_status.status == True:
+        
+        if self.meal_status and self.meal_status.status == True:
             self.reduce_balance = False
-        elif self.meal_status == 'None' and self.meal_status.status == False:
+        
+        if self.meal_status.meal_off == 'None' and self.meal_status.status == False:
             self.reduce_balance = True
+            
         super().save(*args, **kwargs)
 
     @property
