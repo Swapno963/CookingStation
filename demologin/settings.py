@@ -190,8 +190,8 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
-
-# BULK_SMS_API_KEY = env("BULK_SMS_API_KEY")
-# BULK_SMS_SENDER_ID = env("BULK_SMS_SENDER_ID")
+if DEBUG != True:
+    BULK_SMS_API_KEY = env("BULK_SMS_API_KEY")
+    BULK_SMS_SENDER_ID = env("BULK_SMS_SENDER_ID")
 
 

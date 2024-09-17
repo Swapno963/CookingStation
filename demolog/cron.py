@@ -30,7 +30,6 @@ class ExpiredPaymentsCronJob(CronJobBase):
                     payment.dashboard.current_plan = None
                     payment.dashboard.reduce_balance = False 
                     payment.dashboard.save()
-              
 
             except (Package.DoesNotExist, ValueError, IndexError) as e:
                 print(f"Error processing payment ID {payment.id}: {e}")
