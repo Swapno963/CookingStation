@@ -28,7 +28,9 @@ class ExpiredPaymentsCronJob(CronJobBase):
                     payment.save()
 
                     payment.dashboard.current_plan = None
-                    payment.dashboard.reduce_balance = False 
+                    payment.dashboard.reduce_balance = False
+                    payment.dashboard.flexibility = 0
+                    payment.dashboard.flexibility_used = 0 
                     payment.dashboard.save()
 
             except (Package.DoesNotExist, ValueError, IndexError) as e:
