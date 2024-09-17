@@ -1,37 +1,103 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="file://{{ css_path }}" />
+    <title>Label</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      @page {
+        size: A4;
+        margin: 0px;
+      }
+
+      .label-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(9, 1fr);
+        width: 790px;
+        gap: 10px;
+        box-sizing: border-box;
+        /* overflow: hidden; */
+        height: 1122.5197px;
+        padding: 10px;
+      }
+
+      .card-label-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border: 2px dashed #d3d3d3;
+        box-shadow: 0px 1px 3px 0px rgba(17, 24, 39, 0.09);
+        width: 196.5354px;
+        position: relative;
+        outline: 3px solid #d3d3d3;
+        outline-offset: 5px;
+        border-radius: 8px;
+      }
+
+      .info-wrapper {
+        max-width: calc(100% - 30px);
+      }
+
+      .card-label-container div img {
+        width: 30px;
+        -o-object-fit: contain;
+        object-fit: contain;
+      }
+      .card-label-container .user_name {
+        font-family: "Tinos", serif;
+        font-weight: 700;
+        margin: 0;
+        margin-bottom: 6px;
+      }
+      .card-label-container address {
+        font-family: "Tinos", serif;
+        font-weight: 400;
+        margin-bottom: 6px;
+        font-size: 10px;
+        font-style: italic;
+      }
+      .card-label-container .sercvice_id {
+        margin-bottom: 6px;
+        font-size: 10px;
+        font-family: "Tinos", serif;
+        font-weight: 400;
+        font-style: italic;
+      }
+      .card-label-container .web-address {
+        font-family: "Tinos", serif;
+        font-weight: 400;
+        font-size: 10px;
+        font-style: italic;
+        color: #007bff;
+      }
+    </style>
   </head>
 
-<body>
-  <div class="label-wrapper">
-    {% for user in users %}
-    <div class="card-label-container">
-      <div class="info-wrapper">
-        <h3 class="user_name">{{ user.name }}</h3>
-        <div class="sercvice_id">
-          <span>Service Id. </span>
-          <span>{{ user.service_id }}</span>
+  <body>
+    <div class="label-wrapper">
+      {% for user in users %}
+      <div class="card-label-container">
+        <div class="info-wrapper">
+          <h3 class="user_name">{{ user.name }}</h3>
+          <div class="sercvice_id">
+            <span>Service Id. </span>
+            <span>{{ user.service_id }}</span>
+          </div>
+          <address class="address">
+            <span>Address. </span>
+            <span>{{ user.address }}</span>
+          </address>
+
+          <p class="web-address">www.cookingstation.homes</p>
         </div>
-        <address class="address">
-          <span>Address. </span>
-          <span>{{ user.address }}</span>
-        </address>
-
-        <p class="web-address">www.cookingstation.homes</p>
+        <div>
+          <img src="data:image/png;base64,{{ logo_base64 }}" alt="" />
+        </div>
       </div>
-      <div>
-        <img src="data:image/png;base64,{{ logo_base64 }}" alt="" />
-      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-</body>
-
+  </body>
 </html>

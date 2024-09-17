@@ -30,7 +30,6 @@ class ExpiredPaymentsCronJob(CronJobBase):
                     payment.dashboard.current_plan = None
                     payment.dashboard.reduce_balance = False 
                     payment.dashboard.save()
-              
 
             except (Package.DoesNotExist, ValueError, IndexError) as e:
                 print(f"Error processing payment ID {payment.id}: {e}")
@@ -72,17 +71,23 @@ class ReduceBalanceDinnerCronJob(CronJobBase):
     code = 'demolog.reduce_balance_dinner_cron_job'
 
     def do(self):
-        dashboards = Dashboard.objects.filter(reduce_balance=True)
-        for dashboard in dashboards:
-            if dashboard.current_plan and dashboard.balance > 0:
-                per_meal = dashboard.current_plan.per_meal
-                if per_meal is not None:
-                    reduce_amount = min(dashboard.balance, per_meal)
-                    dashboard.balance -= reduce_amount
-                    if dashboard.balance == 0:
-                        dashboard.current_plan = None
-                    dashboard.save()
-        print("Balance successfully reduced by plan's meal rate for dinner.") 
+        now_utc = timezone.now()
+        local_tz = pytz.timezone('Asia/Dhaka')
+        now_local = now_utc.astimezone(local_tz)
+        current_hour = now_local.hour
+
+        if current_hour == 2:
+            dashboards = Dashboard.objects.filter(reduce_balance=True)
+            for dashboard in dashboards:
+                if dashboard.current_plan and dashboard.balance > 0:
+                    per_meal = dashboard.current_plan.per_meal
+                    if per_meal is not None:
+                        reduce_amount = min(dashboard.balance, per_meal)
+                        dashboard.balance -= reduce_amount
+                        if dashboard.balance == 0:
+                            dashboard.current_plan = None
+                        dashboard.save()
+            print("Balance successfully reduced by plan's meal rate for dinner.") 
         
     
 

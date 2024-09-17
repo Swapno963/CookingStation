@@ -202,7 +202,7 @@ class Dashboard(models.Model):
             return ' red'
 
     def toggle_flexibility(self):
-        if not self.reduce_balance:
+        if self.reduce_balance:
             # Check if there is remaining flexibility
             if self.flexibility > 0:
                 self.flexibility -= 1
