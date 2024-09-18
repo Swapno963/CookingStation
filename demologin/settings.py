@@ -108,18 +108,17 @@ WSGI_APPLICATION = "demologin.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env.str("DB_HOST", default="localhost"),  # type: ignore
-        "PORT": env("DB_PORT"),
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+    'default': {
+        "ENGINE": 'django.db.backends.mysql',
+        "NAME": "cookings_cooked",
+        "USER": "cookings_COOK",
+        "PASSWORD": "cookings1234",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
-    # 'default': dj_database_url.config(default=env('DB_URL')),
 }
 
 # DATABASES = {
@@ -190,8 +189,8 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
-if DEBUG != True:
-    BULK_SMS_API_KEY = env("BULK_SMS_API_KEY")
-    BULK_SMS_SENDER_ID = env("BULK_SMS_SENDER_ID")
+
+BULK_SMS_API_KEY = 'sJ9wSqjZIRqdj09Y1I1E'
+BULK_SMS_SENDER_ID = '8809617618106'
 
 

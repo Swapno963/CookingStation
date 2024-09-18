@@ -163,7 +163,7 @@ class DailyMeals(UserPassesTestMixin, View):
             "todays_lunch_list": [],
             "todays_dinner_list": [],
         }
-        # print(current_dt)
+
         if current_dt >= time(9, 1):
             context["todays_lunch_list"] = self.users_list.filter(
                 Q(dashboard__meal_status__meal_off="None")
